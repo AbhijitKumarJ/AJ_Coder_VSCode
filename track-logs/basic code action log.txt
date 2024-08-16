@@ -1,0 +1,93 @@
+
+refactor this code and add verbose comment
+
+Code:
+class Current_Project:
+    def __init__(self):
+        self.deliverables = []
+        self.re_engineered_prompt = ""
+
+    def add_deliverable(self, deliverable):
+        self.deliverables.append({"text": deliverable, "done": False})
+
+
+    def mark_deliverable_done(self, index):
+        if 0 <= index < len(self.deliverables):
+            self.deliverables[index]["done"] = True
+
+
+    def mark_deliverable_undone(self, index):
+        if 0 <= index < len(self.deliverables):
+            self.deliverables[index]["done"] = False
+
+
+    def set_re_engineered_prompt(self, prompt):
+        self.re_engineered_prompt = prompt
+
+Response: 
+
+Here’s the refactored version of the given code with verbose comments that explain the functionality and purpose of each part of the class:
+
+```python
+class CurrentProject:
+    """
+    A class to manage a project with its deliverables and a re-engineered prompt.
+    """
+
+    def __init__(self):
+        """
+        Initializes a new instance of CurrentProject.
+        
+        Attributes:
+        - deliverables: A list that holds all project deliverables, each represented 
+          by a dictionary containing the text of the deliverable and its completion status.
+        - re_engineered_prompt: A string that can hold a re-engineered prompt for the 
+          current project.
+        """
+        self.deliverables = []
+        self.re_engineered_prompt = ""
+
+    def add_deliverable(self, deliverable):
+        """
+        Adds a new deliverable to the project.
+
+        Args:
+        - deliverable (str): The text description of the deliverable to be added.
+        
+        Each deliverable is stored as a dictionary in the deliverables list, 
+        with its 'text' and a 'done' status initialized to False.
+        """
+        self.deliverables.append({"text": deliverable, "done": False})
+
+    def mark_deliverable_done(self, index):
+        """
+        Marks a deliverable as completed based on its index in the list.
+
+        Args:
+        - index (int): The index of the deliverable to mark as done.
+        
+        This method checks if the index is valid. If so, it updates the 'done' 
+        status of the corresponding deliverable to True.
+        """
+        if 0 <= index < len(self.deliverables):
+            self.deliverables[index]["done"] = True
+
+    def mark_deliverable_undone(self, index):
+        """
+        Marks a deliverable as not completed based on its index in the list.
+
+        Args:
+        - index (int): The index of the deliverable to mark as not done.
+        
+        This method checks if the index is valid. If so, it updates the 'done' 
+        status of the corresponding deliverable to False.
+        """
+        if 0 <= index < len(self.deliverables):
+            self.deliverables[index]["done"] = False
+
+    def set_re_engineered_prompt(self, prompt):
+        """
+        Sets the re-engineered prompt for the project.
+
+        Args:
+        - prompt (str): The new re
