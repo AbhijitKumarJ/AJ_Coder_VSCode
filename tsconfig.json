@@ -1,12 +1,14 @@
 {
-	"compilerOptions": {
-	  "module": "commonjs",
-	  "target": "es2020",
-	  "outDir": "out",
-	  "lib": ["es2020","DOM"],
-	  "sourceMap": true,
-	  "rootDir": "src",
-	  "strict": true
-	},
-	"exclude": ["node_modules", ".vscode-test"]
-  }
+    "compilerOptions": {
+        "jsx": "react",
+        "module": "commonjs",
+        "target": "es2020",
+        "outDir": "out",
+        "lib": ["es2020", "DOM"],
+        "sourceMap": true,
+        "rootDir": "src",
+        "strict": true,
+		//"typeRoots": ["./node_modules/@types", "./src"]
+    },
+    "exclude": ["node_modules", ".vscode-test"]
+}

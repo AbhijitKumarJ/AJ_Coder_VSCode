@@ -1,0 +1,16 @@
+prompt: Explain the following code:
+import re def sanitize_text(text): # Remove non-ASCII characters text = re.sub(r'[^\x00-\x7F]+', '', text) # Remove non-alphanumeric characters except for standard punctuation text = re.sub(r'[^a-zA-Z0-9\s.,!?:;\'"-]+', '', text) return text
+
+
+AI Response:
+This Python code defines a function `sanitize_text(text)` that processes a given string `text` to remove unwanted characters. Let's break down the code step by step: 1. **Importing the Regular Expressions Module:**
+   import re
+   
+This line imports the `re` module, which provides support for regular expressions in Python. Regular expressions are used for searching and manipulating strings based on specific patterns. 2. **Defining the Function:**
+   def sanitize_text(text):
+   
+Here, we define a function named `sanitize_text` that takes a single parameter `text`, which is expected to be a string. 3. **Removing Non-ASCII Characters:**
+   text = re.sub(r'[^\x00-\x7F]+', '', text)
+   
+This line uses the `re.sub()` function to search for characters that are not within the range of ASCII characters (0 to 127). The pattern `r'[^\x00-\x7F]+'` matches any sequence of one or more characters that are not ASCII. These characters are replaced with an empty string `''`, effectively removing them from `text`. As a result, any non-ASCII character (like special symbols or characters from other languages) will be deleted. 4. **Removing Non-Alphanumeric Characters (with Exceptions):**
+   text = re.sub(r'[^a-zA-Z0-

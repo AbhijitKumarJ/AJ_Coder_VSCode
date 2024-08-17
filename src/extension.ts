@@ -18,7 +18,13 @@ export function activate(context: vscode.ExtensionContext) {
         ChatPanel.createOrShow(context.extensionUri, aiService);
       })
     );
-
+    context.subscriptions.push(
+      vscode.commands.registerCommand('ai-coding-assistant.openDevTools', () => {
+        if (ChatPanel.currentPanel) {
+          ChatPanel.currentPanel.openDevTools();
+        }
+      })
+    );
     // const disposable = vscode.commands.registerCommand(
     //     "ai-coding-assistant.askAI",
     //     async () => {

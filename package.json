@@ -26,6 +26,10 @@
             {
                 "command": "ai-coding-assistant.askAI",
                 "title": "Ask AI Assistant"
+            },
+            {
+                "command": "ai-coding-assistant.openDevTools",
+                "title": "Open WebView Developer Tools"
             }
         ],
         "configuration": {
@@ -43,17 +47,34 @@
         "vscode:prepublish": "npm run package",
         "compile": "tsc -p ./",
         "lint": "eslint \"src/**/*.ts\"",
-        "watch": "tsc -w -p ./"
+        "watch": "tsc -w -p ./",
+        "webpack": "webpack --mode development",
+        "webpack-dev": "webpack --mode development --watch",
+        "package": "webpack --mode production --devtool hidden-source-map",
+        "compile-tests": "tsc -p . --outDir out",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "test": "node ./out/test/runTest.js"
     },
     "devDependencies": {
         "@types/vscode": "^1.84.0",
         "@typescript-eslint/eslint-plugin": "^7.14.1",
         "@typescript-eslint/parser": "^7.11.0",
+        "css-loader": "^7.1.2",
         "esbuild": "^0.21.5",
         "eslint": "^8.57.0",
-        "typescript": "^5.4.5"
+        "style-loader": "^4.0.0",
+        "ts-loader": "^9.5.1",
+        "typescript": "^5.4.5",
+        "webpack": "^5.93.0",
+        "webpack-cli": "^5.1.4"
     },
     "dependencies": {
-        "openai": "^4.56.0"
+        "@types/react": "^18.3.3",
+        "@types/react-dom": "^18.3.0",
+        "@types/react-syntax-highlighter": "^15.5.13",
+        "openai": "^4.56.0",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "react-syntax-highlighter": "^15.5.0"
     }
 }

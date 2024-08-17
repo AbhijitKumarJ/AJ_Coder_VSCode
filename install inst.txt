@@ -1,1 +1,4 @@
 npm install openai
+npm install react react-dom @types/react @types/react-dom
+npm install -D webpack webpack-cli ts-loader css-loader style-loader
+npm install react-syntax-highlighter @types/react-syntax-highlighter
