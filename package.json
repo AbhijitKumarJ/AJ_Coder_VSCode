@@ -41,6 +41,24 @@
                     "description": "API Key for the AI service"
                 }
             }
+        },
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "ai-coding-assistant",
+                    "title": "AI Coding Assistant",
+                    "icon": "resources/ai-icon.svg"
+                }
+            ]
+        },
+        "views": {
+            "ai-coding-assistant": [
+                {
+                    "type": "webview",
+                    "id": "aiChatView",
+                    "name": "AI Chat"
+                }
+            ]
         }
     },
     "scripts": {

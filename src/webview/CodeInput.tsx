@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-//import './CodeInput.css';
+import './CodeInput.css';
 
 interface CodeInputProps {
   onSend: (code: string) => void;

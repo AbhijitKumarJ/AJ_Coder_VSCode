@@ -1,13 +1,19 @@
 import * as React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
-//import './ChatMessage.css';
+import './ChatMessage.css';
 
 interface ChatMessageProps {
   role: string;
   content: string;
 }
-
+// export const ChatMessage: React.FC<ChatMessageProps> = ({ role, content }) => {
+//   return (
+//     <div className={`chat-message ${role}`}>
+//       <div className="message-content">{formatContent(content)}</div>
+//     </div>
+//   );
+// };
 export const ChatMessage: React.FC<ChatMessageProps> = ({ role, content }) => {
   const isCode = role === 'user' || (role === 'ai' && content.includes('```'));
 

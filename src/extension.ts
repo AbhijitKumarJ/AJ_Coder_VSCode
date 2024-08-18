@@ -1,6 +1,7 @@
 import * as vscode from "vscode";
 import { AIService } from "./services/aiService";
-import { ChatPanel } from './panels/ChatPanel';
+//import { ChatPanel } from './panels/ChatPanel';
+import { ChatViewProvider } from './panels/ChatViewProvider';
 
 let aiService: AIService;
 
@@ -13,18 +14,31 @@ export function activate(context: vscode.ExtensionContext) {
         .get("aiCodingAssistant.apiKey") as string;
     aiService = new AIService(apiKey);
 
+    // context.subscriptions.push(
+    //   vscode.commands.registerCommand('ai-coding-assistant.askAI', () => {
+    //     ChatPanel.createOrShow(context.extensionUri, aiService);
+    //   })
+    // );
+    // context.subscriptions.push(
+    //   vscode.commands.registerCommand('ai-coding-assistant.openDevTools', () => {
+    //     if (ChatPanel.currentPanel) {
+    //       ChatPanel.currentPanel.openDevTools();
+    //     }
+    //   })
+    // );
+
+    const chatViewProvider = new ChatViewProvider(context.extensionUri, aiService);
+
     context.subscriptions.push(
-      vscode.commands.registerCommand('ai-coding-assistant.askAI', () => {
-        ChatPanel.createOrShow(context.extensionUri, aiService);
-      })
+        vscode.window.registerWebviewViewProvider('aiChatView', chatViewProvider)
     );
+
     context.subscriptions.push(
-      vscode.commands.registerCommand('ai-coding-assistant.openDevTools', () => {
-        if (ChatPanel.currentPanel) {
-          ChatPanel.currentPanel.openDevTools();
-        }
-      })
+        vscode.commands.registerCommand('ai-coding-assistant.askAI', () => {
+            vscode.commands.executeCommand('workbench.view.extension.ai-coding-assistant');
+        })
     );
+
     // const disposable = vscode.commands.registerCommand(
     //     "ai-coding-assistant.askAI",
     //     async () => {
