@@ -26,8 +26,14 @@ export class AIService {
             case "debug":
                 prompt = `Debug the following code and suggest fixes:\n\n${code}`;
                 break;
-            default:
+            case "analyze":
                 prompt = `Analyze the following code:\n\n${code}`;
+                break;
+            case "generate":
+                prompt = `Generate code based on given input:\n\n${code}`;
+                break;
+            default:
+                prompt = `Generate code based on given input:\n\n${code}`;
         }
 
         console.log("prompt: " + prompt);

@@ -1,12 +1,14 @@
 import * as vscode from 'vscode';
 import { AIService } from '../services/aiService';
+import { HistoryService } from '../services/historyService';
 
 export class ChatViewProvider implements vscode.WebviewViewProvider {
     private _view?: vscode.WebviewView;
 
     constructor(
         private readonly _extensionUri: vscode.Uri,
-        private readonly _aiService: AIService
+        private readonly _aiService: AIService,
+        private readonly historyService: HistoryService
     ) {}
 
     public resolveWebviewView(
@@ -30,8 +32,16 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
                     const [queryType, code] = data.value.split('|||');
                     // eslint-disable-next-line no-case-declarations
                     const response = await this._aiService.handleQuery(queryType.trim(), code.trim());
+                    await this.historyService.saveMessage({ role: 'user', content: `${queryType}:\n\n${code}`, timestamp: Date.now() });
+                    await this.historyService.saveMessage({ role: 'ai', content: response, timestamp: Date.now() });
+            
                     webviewView.webview.postMessage({ type: 'aiResponse', value: response });
                     break;
+                case 'getHistory':
+                    // eslint-disable-next-line no-case-declarations
+                    const history = await this.historyService.getHistory();
+                    webviewView.webview.postMessage({ type: 'historyLoaded', history });
+                    return;
             }
         });
     }
