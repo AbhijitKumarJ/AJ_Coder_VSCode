@@ -1,40 +1,25 @@
 import { OpenAI } from "openai";
+import { BaseAIService } from "./baseAIService";
 
-export class AIService {
+export class OpenAIService extends BaseAIService {
     private openai: OpenAI;
+    name = 'OpenAI';
+    _maxTokens=300;
 
-    constructor(apiKey: string) {
+    constructor(apiKey: string, maxTokens: number) {
+        super();
         this.openai = new OpenAI({ apiKey });
+        this._maxTokens=maxTokens;
     }
 
     async handleQuery(queryType: string, code: string): Promise<string> {
-        if(code=='')
-        {
+        if (code == '') {
             console.log("query type:" + queryType);
             console.log("code: " + code);
             return "An error occurred while processing your query.";
         }
 
-        let prompt = "";
-        switch (queryType) {
-            case "explain":
-                prompt = `Explain the following code:\n\n${code}`;
-                break;
-            case "optimize":
-                prompt = `Optimize the following code and explain the improvements:\n\n${code}`;
-                break;
-            case "debug":
-                prompt = `Debug the following code and suggest fixes:\n\n${code}`;
-                break;
-            case "analyze":
-                prompt = `Analyze the following code:\n\n${code}`;
-                break;
-            case "generate":
-                prompt = `Generate code based on given input:\n\n${code}`;
-                break;
-            default:
-                prompt = `Generate code based on given input:\n\n${code}`;
-        }
+        const prompt = this.createPrompt(queryType, code);
 
         console.log("prompt: " + prompt);
 
@@ -42,7 +27,7 @@ export class AIService {
             const response = await this.openai.chat.completions.create({
                 model: "gpt-4o-mini", //"gpt-3.5-turbo",
                 messages: [{ role: "user", content: prompt }],
-                max_tokens: 300,
+                max_tokens: this._maxTokens
             });
 
             return (

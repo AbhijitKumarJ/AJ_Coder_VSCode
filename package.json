@@ -30,15 +30,33 @@
             {
                 "command": "ai-coding-assistant.openDevTools",
                 "title": "Open WebView Developer Tools"
+            },
+            {
+                "command": "ai-coding-assistant.configure",
+                "title": "Configure AI Coding Assistant"
             }
         ],
         "configuration": {
             "title": "AI Coding Assistant",
             "properties": {
+                "aiCodingAssistant.provider": {
+                    "type": "string",
+                    "enum": [
+                        "openai",
+                        "anthropic"
+                    ],
+                    "default": "openai",
+                    "description": "Select the AI provider to use"
+                },
                 "aiCodingAssistant.apiKey": {
                     "type": "string",
                     "default": "",
-                    "description": "API Key for the AI service"
+                    "description": "API Key for the selected AI provider"
+                },
+                "aiCodingAssistant.maxTokens": {
+                    "type": "number",
+                    "default": 500,
+                    "description": "Maximum number of tokens for AI responses"
                 }
             }
         },
@@ -87,6 +105,7 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
+        "@anthropic-ai/sdk": "^0.26.1",
         "@types/react": "^18.3.3",
         "@types/react-dom": "^18.3.0",
         "@types/react-syntax-highlighter": "^15.5.13",

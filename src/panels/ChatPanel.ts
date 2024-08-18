@@ -1,13 +1,13 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
-import { AIService } from '../services/aiService';
+import { OpenAIService } from '../services/aiService';
 
 export class ChatPanel {
   public static currentPanel: ChatPanel | undefined;
   private readonly _panel: vscode.WebviewPanel;
   private _disposables: vscode.Disposable[] = [];
 
-  private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, aiService: AIService) {
+  private constructor(panel: vscode.WebviewPanel, extensionUri: vscode.Uri, aiService: OpenAIService) {
     this._panel = panel;
 
     this._panel.webview.html = this._getWebviewContent(extensionUri);
@@ -36,7 +36,7 @@ export class ChatPanel {
     this._panel.webview.postMessage({ command: 'openDevTools' });
   }
 
-  public static createOrShow(extensionUri: vscode.Uri, aiService: AIService) {
+  public static createOrShow(extensionUri: vscode.Uri, aiService: OpenAIService) {
     const column = vscode.window.activeTextEditor
       ? vscode.window.activeTextEditor.viewColumn
       : undefined;

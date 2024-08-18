@@ -1,21 +1,36 @@
 import * as vscode from "vscode";
-import { AIService } from "./services/aiService";
+import { OpenAIService } from "./services/aiService";
 //import { ChatPanel } from './panels/ChatPanel';
 import { ChatViewProvider } from './panels/ChatViewProvider';
 import { HistoryService } from "./services/historyService";
+import { AIProvider } from "./services/baseAIService";
+import { AnthropicService } from "./services/anthropicService";
+import { ConfigurationPanel } from "./configurationPanel";
 
-let aiService: AIService;
+let aiProvider: AIProvider;
 let historyService: HistoryService;
 
 export function activate(context: vscode.ExtensionContext) {
     console.log("AI Coding Assistant is now active!");
 
-    // Initialize AI service with API key
-    const apiKey = vscode.workspace
-        .getConfiguration()
-        .get("aiCodingAssistant.apiKey") as string;
+    // Initialize AI service 
+    const config = vscode.workspace.getConfiguration('aiCodingAssistant');
+    const provider = config.get('provider') as string;
+    const apiKey = config.get("apiKey") as string;
+    const maxTokens = config.get('maxTokens') as number;
         
-    aiService = new AIService(apiKey);
+  
+    switch (provider) {
+      case 'openai':
+        aiProvider = new OpenAIService(apiKey, maxTokens);
+        break;
+      case 'anthropic':
+        aiProvider = new AnthropicService(apiKey, maxTokens);
+        break;
+      default:
+        aiProvider = new OpenAIService(apiKey, maxTokens);
+    }
+
     historyService = new HistoryService(context);
     // context.subscriptions.push(
     //   vscode.commands.registerCommand('ai-coding-assistant.askAI', () => {
@@ -30,7 +45,7 @@ export function activate(context: vscode.ExtensionContext) {
     //   })
     // );
 
-    const chatViewProvider = new ChatViewProvider(context.extensionUri, aiService, historyService);
+    const chatViewProvider = new ChatViewProvider(context.extensionUri, aiProvider, historyService);
 
     context.subscriptions.push(
         vscode.window.registerWebviewViewProvider('aiChatView', chatViewProvider)
@@ -42,6 +57,12 @@ export function activate(context: vscode.ExtensionContext) {
         })
     );
 
+    const configureCommand = vscode.commands.registerCommand('ai-coding-assistant.configure', () => {
+      ConfigurationPanel.createOrShow();
+    });
+  
+    context.subscriptions.push(configureCommand);
+    
     // const disposable = vscode.commands.registerCommand(
     //     "ai-coding-assistant.askAI",
     //     async () => {

@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { AIService } from '../services/aiService';
+import { AIProvider } from '../services/baseAIService';
 import { HistoryService } from '../services/historyService';
 
 export class ChatViewProvider implements vscode.WebviewViewProvider {
@@ -7,7 +7,7 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
 
     constructor(
         private readonly _extensionUri: vscode.Uri,
-        private readonly _aiService: AIService,
+        private readonly _aiProvider: AIProvider,
         private readonly historyService: HistoryService
     ) {}
 
@@ -31,7 +31,7 @@ export class ChatViewProvider implements vscode.WebviewViewProvider {
                     // eslint-disable-next-line no-case-declarations
                     const [queryType, code] = data.value.split('|||');
                     // eslint-disable-next-line no-case-declarations
-                    const response = await this._aiService.handleQuery(queryType.trim(), code.trim());
+                    const response = await this._aiProvider.handleQuery(queryType.trim(), code.trim());
                     await this.historyService.saveMessage({ role: 'user', content: `${queryType}:\n\n${code}`, timestamp: Date.now() });
                     await this.historyService.saveMessage({ role: 'ai', content: response, timestamp: Date.now() });
             
